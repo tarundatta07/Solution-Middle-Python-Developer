@@ -1,6 +1,6 @@
 import mysql.connector
 
-# Connect to the MySQL database
+# ------ CONNECT TO MY LOCAL MYSQL DATABASE ---------
 db_connection = mysql.connector.connect(
 	host="localhost",
 	user="root",
@@ -8,11 +8,11 @@ db_connection = mysql.connector.connect(
 	database="library_management"
 )
 
-# Create a cursor object to interact with the database
+
 cursor = db_connection.cursor()
 
 
-# CREATE - Add a new author
+# CREATE  ----- ADDING NEW AUTHORS ------
 def add_author(authors_name):
 	query = "INSERT INTO authors (author_name) VALUES (%s)"
 	values = [(author,) for author in authors_name]
@@ -21,7 +21,7 @@ def add_author(authors_name):
 	return cursor.lastrowid
 
 
-# CREATE - Add a new genre
+# CREATE ----- ADDING NEW GENRES ------
 def add_genre(genres_name):
 	query = "INSERT INTO genres (genre_name) VALUES (%s)"
 	values = [(genre,) for genre in genres_name]
@@ -30,7 +30,7 @@ def add_genre(genres_name):
 	return cursor.lastrowid
 
 
-# CREATE - Add a new book
+# CREATE ----- ADDING NEW BOOKS ------
 def add_book(list_of_books):
 	query = "INSERT INTO books (title, author_id, genre_id) VALUES (%s, %s, %s)"
 	values = list_of_books
@@ -39,7 +39,7 @@ def add_book(list_of_books):
 	return cursor.lastrowid
 
 
-# CREATE - Add a new patron
+# CREATE ----- ADDING NEW PATRONS ------
 def add_patron(patrons_name):
 	query = "INSERT INTO patrons (patron_name) VALUES (%s)"
 	values = [(patron,) for patron in patrons_name]
@@ -48,7 +48,7 @@ def add_patron(patrons_name):
 	return cursor.lastrowid
 
 
-# READ - Retrieve all books
+# READ ----- RETREIVE ALL BOOKS ------
 def get_all_books():
 	query = "SELECT books.book_id, books.title, authors.author_name, genres.genre_name FROM books \
              INNER JOIN authors ON books.author_id = authors.author_id \
@@ -58,7 +58,7 @@ def get_all_books():
 	return all_books
 
 
-# UPDATE - Update book information
+# UPDATE ----- UPDATING BOOK BY BOOK ID ------
 def update_book(book_id, new_title, new_author_id, new_genre_id):
 	query = "UPDATE books SET title = %s, author_id = %s, genre_id = %s WHERE book_id = %s"
 	values = (new_title, new_author_id, new_genre_id, book_id)
@@ -66,14 +66,14 @@ def update_book(book_id, new_title, new_author_id, new_genre_id):
 	db_connection.commit()
 
 
-# DELETE - Delete a book
+# DELETE ----- DELETING BOOK BY BOOK ID ------
 def delete_book(book_id):
 	query = "DELETE FROM books WHERE book_id = %s"
 	cursor.execute(query, (book_id,))
 	db_connection.commit()
 
 
-# Example usage
+
 authors_list = ["David Smith", "Harry kane", "Robertson ", "Sam Curran"]
 genre_list = ["Literary Fiction", "Science Fiction", "Historical Fiction ", "Mystery"]
 patrons_list = ["Tom", "Jerry", "Alex ", "Peter"]
